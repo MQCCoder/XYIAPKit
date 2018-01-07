@@ -24,7 +24,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/1073605877/XYIAPKit'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { '1073605877' => 'qichao.ma@quvideo.com' }
+  s.author           = { '1073605877' => '1073605877@qq.com' }
   s.source           = { :git => 'https://github.com/1073605877/XYIAPKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
@@ -37,6 +37,6 @@ TODO: Add long description of the pod here.
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.frameworks = 'StoreKit'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
