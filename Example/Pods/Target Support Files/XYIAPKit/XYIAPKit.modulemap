@@ -1,0 +1,6 @@
+framework module XYIAPKit {
+  umbrella header "XYIAPKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
