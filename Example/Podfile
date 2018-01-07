@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'XYIAPKit_Example' do
+  pod 'XYIAPKit', :path => '../'
+
+  target 'XYIAPKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
