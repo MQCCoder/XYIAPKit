@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XYIAPKit'
-  s.version          = '0.0.3'
+  s.version          = '0.4.0'
   s.summary          = 'A short description of XYIAPKit.'
   s.description      = <<-DESC
   
@@ -16,10 +16,10 @@ Pod::Spec.new do |s|
 
                        DESC
 
-  s.homepage         = 'git@192.168.1.33:ioscomponentgroup/XYIAPKit.git'
+  s.homepage         = 'https://github.com/mqc123450/XYIAPKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'qichao.ma' => '“qichao.ma@quvideo.com”' }
-  s.source           = { :git => 'http://192.168.1.33:9090/ioscomponentgroup/XYIAPKit.git', :tag => s.version.to_s }
+  s.source           = { :git => 'git@github.com:mqc123450/XYIAPKit.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '8.0'
   s.platform = :ios, '8.0'
