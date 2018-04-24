@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/mqc123450/XYIAPKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'qichao.ma' => '“qichao.ma@quvideo.com”' }
-  s.source           = { :git => 'git@github.com:mqc123450/XYIAPKit.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/mqc123450/XYIAPKit.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '8.0'
   s.platform = :ios, '8.0'
