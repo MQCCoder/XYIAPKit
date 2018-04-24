@@ -33,12 +33,12 @@ Pod::Spec.new do |s|
 
 
   s.subspec 'Core' do |core|
-    core.source_files = 'XYIAPKit/Core/.{h, m}'
+    core.source_files = 'XYIAPKit/Core/*.{h, m}'
   end
 
   s.subspec 'Persistence' do |pe|
     pe.dependency 'XYIAPKit/Core'
-    pe.source_files = 'XYIAPKit/Persistence/.{h, m}'
+    pe.source_files = 'XYIAPKit/Persistence/*.{h, m}'
     pe.frameworks = 'Security'
   end
 

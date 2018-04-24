@@ -1,16 +1,19 @@
 PODS:
-  - XYIAPKit (0.1.0)
+  - XYIAPKit (0.4.0):
+    - XYIAPKit/Core (= 0.4.0)
+  - XYIAPKit/Core (0.4.0)
 
 DEPENDENCIES:
   - XYIAPKit (from `../`)
+  - XYIAPKit/Core (from `../`)
 
 EXTERNAL SOURCES:
   XYIAPKit:
     :path: ../
 
 SPEC CHECKSUMS:
-  XYIAPKit: ce764b63650f0bec7429b9b02da5dbfdd48f5181
+  XYIAPKit: e7b820f8c2d112c04b1c3579ea4482b0ca853220
 
-PODFILE CHECKSUM: 6806083197eccca4bbb58b6779e95ccbd9867efa
+PODFILE CHECKSUM: 873f001b34af209e0cba08ee4ff05db7cfe744f3
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0
