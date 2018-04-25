@@ -33,19 +33,19 @@ Pod::Spec.new do |s|
 
 
   s.subspec 'Core' do |core|
-    core.source_files = 'XYIAPKit/Core/*.{h, m}'
+    core.source_files = 'XYIAPKit/Core/*.{h,m}'
   end
 
   s.subspec 'Persistence' do |pe|
     pe.dependency 'XYIAPKit/Core'
-    pe.source_files = 'XYIAPKit/Persistence/*.{h, m}'
+    pe.source_files = 'XYIAPKit/Persistence/*.{h,m}'
     pe.frameworks = 'Security'
   end
 
   s.subspec 'Receipt' do |re|
     re.dependency 'XYIAPKit/Core'
     re.platform = :ios, '8.0'
-    re.source_files = 'XYIAPKit/Receipt/*.{h, m}'
+    re.source_files = 'XYIAPKit/Receipt/*.{h,m}'
     re.dependency 'OpenSSL', '~> 1.0'
     s.resource_bundles = {
       'XYIAPKit' => ['XYIAPKit/Assets/*']
