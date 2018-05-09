@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XYIAPKit'
-  s.version          = '0.8.0'
+  s.version          = '0.9.0'
   s.summary          = 'In App purchase sdk, support auto-renewable subscription'
   s.description      = <<-DESC
   
