@@ -18,7 +18,30 @@ extern NSInteger const XYStoreErrorCodeUnableToCompleteVerification;
 
 @interface XYStore : NSObject<SKPaymentTransactionObserver>
 
-+ (XYStore*)defaultStore;
++ (XYStore *)defaultStore;
+
+/**
+ 外部内容下载
+ 注：单利内部为weak持有，建议注册一个单利的contentDownloader
+ @discussion Hosted content from Apple’s server (SKDownload) 自动下载，无需设置contentDownloader。
+ */
+
+- (void)registerContentDownloader:(id<XYStoreContentDownloader>)contentDownloader;
+
+/**
+ 票据校验
+ 注：内部为weak持有，建议注册一个单利的receiptVerifier
+ */
+- (void)registerReceiptVerifier:(id<XYStoreReceiptVerifier>)receiptVerifier;
+
+/**
+ 缓存订单
+ 注：内部为weak持有，建议注册一个单利的transactionPersistor
+ The transaction persistor. It is recommended to provide your own obfuscator if piracy is a concern. The store will use weak obfuscation via `NSKeyedArchiver` by default.
+ @see XYStoreKeychainPersistence
+ @see XYStoreUserDefaultsPersistence
+ */
+- (void)registerTransactionPersistor:(id<XYStoreTransactionPersistor>)transactionPersistor;
 
 + (BOOL)canMakePayments;
 
@@ -28,6 +51,14 @@ extern NSInteger const XYStoreErrorCodeUnableToCompleteVerification;
            success:(void (^)(SKPaymentTransaction *transaction))successBlock
            failure:(void (^)(SKPaymentTransaction *transaction, NSError *error))failureBlock;
 
+
+/**
+ @param userIdentifier
+ 
+ An opaque identifier for the user’s account on your system.
+ Use this property to help the store detect irregular activity. For example, in a game, it would be unusual for dozens of different iTunes Store accounts to make purchases on behalf of the same in-game character.
+ The recommended implementation is to use a one-way hash of the user’s account name to calculate the value for this property.
+ */
 - (void)addPayment:(NSString*)productIdentifier
               user:(NSString*)userIdentifier
            success:(void (^)(SKPaymentTransaction *transaction))successBlock
@@ -87,26 +118,6 @@ extern NSInteger const XYStoreErrorCodeUnableToCompleteVerification;
  */
 - (void)base64Receipt:(void(^)(NSString *base64Data))success
               failure:(void(^)(NSError *error))failure;
-
-/**
- 外部内容下载
- 
- @discussion Hosted content from Apple’s server (SKDownload) 自动下载，无需设置contentDownloader。
- */
-@property (nonatomic, weak) id<XYStoreContentDownloader> contentDownloader;
-
-/**
- 票据校验
- */
-@property (nonatomic, weak) id<XYStoreReceiptVerifier> receiptVerifier;
-
-/**
- The transaction persistor. It is recommended to provide your own obfuscator if piracy is a concern. The store will use weak obfuscation via `NSKeyedArchiver` by default.
- @see XYStoreKeychainPersistence
- @see XYStoreUserDefaultsPersistence
- */
-@property (nonatomic, weak) id<XYStoreTransactionPersistor> transactionPersistor;
-
 
 #pragma mark Product management
 

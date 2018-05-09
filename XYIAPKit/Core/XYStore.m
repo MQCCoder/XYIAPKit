@@ -66,6 +66,12 @@ typedef void (^XYStoreSuccessBlock)(void);
 
 @property (nonatomic, strong) XYReceiptRefreshService *receiptService;
 
+@property (nonatomic, weak) id<XYStoreContentDownloader> contentDownloader;
+
+@property (nonatomic, weak) id<XYStoreReceiptVerifier> receiptVerifier;
+
+@property (nonatomic, weak) id<XYStoreTransactionPersistor> transactionPersistor;
+
 @end
 
 @implementation XYStore
@@ -95,6 +101,21 @@ typedef void (^XYStoreSuccessBlock)(void);
     return sharedInstance;
 }
 
+- (void)registerContentDownloader:(id<XYStoreContentDownloader>)contentDownloader
+{
+    _contentDownloader = contentDownloader;
+}
+
+- (void)registerReceiptVerifier:(id<XYStoreReceiptVerifier>)receiptVerifier
+{
+    _receiptVerifier = receiptVerifier;
+}
+
+- (void)registerTransactionPersistor:(id<XYStoreTransactionPersistor>)transactionPersistor
+{
+    _transactionPersistor = transactionPersistor;
+}
+
 #pragma mark StoreKit wrapper
 
 + (BOOL)canMakePayments
@@ -119,29 +140,38 @@ typedef void (^XYStoreSuccessBlock)(void);
            success:(void (^)(SKPaymentTransaction *transaction))successBlock
            failure:(void (^)(SKPaymentTransaction *transaction, NSError *error))failureBlock
 {
-    SKProduct *product = [self productForIdentifier:productIdentifier];
-    if (product == nil)
-    {
-        NSLog(@"unknown product id %@", productIdentifier);
-        if (failureBlock != nil)
-        {
-            NSError *error = [NSError errorWithDomain:XYStoreErrorDomain code:XYStoreErrorCodeUnknownProductIdentifier userInfo:@{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"Unknown product identifier", @"XYIAPKit", @"Error description")}];
+    
+    __weak typeof(self) weakSelf = self;
+    void(^errorBlock)(NSError *error)  = ^(NSError *error) {
+        if (failureBlock) {
             failureBlock(nil, error);
         }
-        return;
-    }
-    SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
-    if ([payment respondsToSelector:@selector(setApplicationUsername:)])
-    {
-        payment.applicationUsername = userIdentifier;
-    }
+    };
     
-    XYAddPaymentParameters *parameters = [[XYAddPaymentParameters alloc] init];
-    parameters.successBlock = successBlock;
-    parameters.failureBlock = failureBlock;
-    self.addPaymentParameters[productIdentifier] = parameters;
+    id completeBlock = ^(SKProduct *product) {
+        if (!product) {
+            NSString *errorDesc = NSLocalizedStringFromTable(@"Unknown product identifier", @"XYIAPKit", @"Error description");
+            NSError *error = [NSError errorWithDomain:XYStoreErrorDomain
+                                                 code:XYStoreErrorCodeUnknownProductIdentifier
+                                             userInfo:@{NSLocalizedDescriptionKey: errorDesc}];
+            errorBlock(error);
+        }else {
+            SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
+            if ([payment respondsToSelector:@selector(setApplicationUsername:)])
+            {
+                payment.applicationUsername = userIdentifier;
+            }
+            
+            XYAddPaymentParameters *parameters = [[XYAddPaymentParameters alloc] init];
+            parameters.successBlock = successBlock;
+            parameters.failureBlock = failureBlock;
+            weakSelf.addPaymentParameters[productIdentifier] = parameters;
+            
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
+        }
+    };
     
-    [[SKPaymentQueue defaultQueue] addPayment:payment];
+    [self fetchProduct:productIdentifier success:completeBlock failure:errorBlock];
 }
 
 #pragma mark - requestProducts
@@ -198,6 +228,13 @@ typedef void (^XYStoreSuccessBlock)(void);
              failure:(void (^)(NSError *error))failure
 {
     if (!identifier) {
+        NSString *errorDesc = NSLocalizedStringFromTable(@"Unknown product identifier", @"XYIAPKit", @"Error description");
+        NSError *error = [NSError errorWithDomain:XYStoreErrorDomain
+                                             code:XYStoreErrorCodeUnknownProductIdentifier
+                                         userInfo:@{NSLocalizedDescriptionKey: errorDesc}];
+        if (failure) {
+            failure(error);
+        }
         return;
     }
     
@@ -290,7 +327,7 @@ typedef void (^XYStoreSuccessBlock)(void);
 {
     void(^handler)(NSURL *url) = ^(NSURL *url) {
         NSData *data = [NSData dataWithContentsOfURL:url];
-        NSString *base64Data = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        NSString *base64Data = [data base64EncodedStringWithOptions:0];
         if (success) {
             success(base64Data);
         }

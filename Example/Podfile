@@ -3,6 +3,9 @@ use_frameworks!
 target 'XYIAPKit_Example' do
   pod 'XYIAPKit', :path => '../'
   pod 'XYIAPKit/Core', :path => '../'
+  pod 'XYIAPKit/iTunesReceiptVerify', :path => '../'
+  pod 'XYIAPKit/UserDefaultPersistence', :path => '../'
+  pod 'XYIAPKit/KeychainPersistence', :path => '../'
   target 'XYIAPKit_Tests' do
     inherit! :search_paths
 

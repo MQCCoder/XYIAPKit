@@ -8,13 +8,20 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XYIAPKit'
-  s.version          = '0.6.0'
-  s.summary          = 'A short description of XYIAPKit.'
+  s.version          = '0.8.0'
+  s.summary          = 'In App purchase sdk, support auto-renewable subscription'
   s.description      = <<-DESC
   
-  好用的内购组件
+  非常好用的内购组件，支持自动续期订阅的过期校验、票据检验、简单易用
+  提供功能：
+    1）、产品查询
+    2）、产品购买
+    3）、恢复内购
+    4）、票据校验
+    5）、交易存储
 
                        DESC
+
 
   s.homepage         = 'https://github.com/mqc123450/XYIAPKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -35,21 +42,22 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
     core.source_files = 'XYIAPKit/Core/*.{h,m}'
   end
-
-  s.subspec 'Persistence' do |pe|
-    pe.dependency 'XYIAPKit/Core'
-    pe.source_files = 'XYIAPKit/Persistence/*.{h,m}'
-    pe.frameworks = 'Security'
+  
+  s.subspec 'KeychainPersistence' do |ke|
+      ke.dependency 'XYIAPKit/Core'
+      ke.source_files = 'XYIAPKit/Persistence/KeychainPersistence/*.{h,m}'
+      ke.frameworks = 'Security'
+  end
+  
+  s.subspec 'UserDefaultPersistence' do |us|
+      us.dependency 'XYIAPKit/Core'
+      us.source_files = 'XYIAPKit/Persistence/UserDefaultPersistence/*.{h,m}'
   end
 
-  s.subspec 'Receipt' do |re|
-    re.dependency 'XYIAPKit/Core'
-    re.platform = :ios, '8.0'
-    re.source_files = 'XYIAPKit/Receipt/*.{h,m}'
-    re.dependency 'OpenSSL', '~> 1.0'
-    s.resource_bundles = {
-      'XYIAPKit' => ['XYIAPKit/Assets/*']
-    }
+  s.subspec 'iTunesReceiptVerify' do |it|
+    it.dependency 'XYIAPKit/Core'
+    it.source_files = 'XYIAPKit/Receipt/iTunesReceiptVerify/*.{h,m}'
+    it.dependency 'YYModel', '~> 1.0.4'
   end
 
 end

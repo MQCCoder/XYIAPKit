@@ -66,7 +66,7 @@
 		AAA332B44FE7D1F91DCB06B5 /* Pods_XYIAPKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XYIAPKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1C47D97834666D867759FDF /* Pods-XYIAPKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYIAPKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XYIAPKit_Tests/Pods-XYIAPKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B584493E95780E01F351ACB4 /* Pods-XYIAPKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYIAPKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-XYIAPKit_Example/Pods-XYIAPKit_Example.release.xcconfig"; sourceTree = "<group>"; };
-		BBF6E665EF842C909ECE69B2 /* XYIAPKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = XYIAPKit.podspec; path = ../XYIAPKit.podspec; sourceTree = "<group>"; };
+		BBF6E665EF842C909ECE69B2 /* XYIAPKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = XYIAPKit.podspec; path = ../XYIAPKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -392,10 +392,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-XYIAPKit_Example/Pods-XYIAPKit_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/XYIAPKit/XYIAPKit.framework",
+				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XYIAPKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

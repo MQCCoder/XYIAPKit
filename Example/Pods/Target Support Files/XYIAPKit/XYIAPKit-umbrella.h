@@ -10,14 +10,20 @@
 #endif
 #endif
 
-#import "NSUserDefaults+XYSafeAccess.h"
-#import "XYIAPProductInfo.h"
 #import "XYIAPKit.h"
-#import "XYIAPManager.h"
-#import "XYIAPObserveHandler.h"
-#import "XYIAPObserveProtocol.h"
-#import "XYPurchaseClient.h"
-#import "XYReceiptHandler.h"
+#import "NSNotification+XYStore.h"
+#import "XYReceiptRefreshService.h"
+#import "XYStore.h"
+#import "XYStoreProductService.h"
+#import "XYStoreProtocol.h"
+#import "XYStoreKeychainPersistence.h"
+#import "XYStoreTransaction.h"
+#import "XYStoreUserDefaultsPersistence.h"
+#import "NSDate+XYStoreExtension.h"
+#import "XYInAppReceipt.h"
+#import "XYiTunesReceipt.h"
+#import "XYiTunesResponse.h"
+#import "XYStoreiTunesReceiptVerifier.h"
 
 FOUNDATION_EXPORT double XYIAPKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char XYIAPKitVersionString[];
