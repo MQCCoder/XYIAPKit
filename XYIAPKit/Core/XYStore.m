@@ -205,7 +205,7 @@ typedef void (^XYStoreSuccessBlock)(void);
          }
          
          NSDictionary *userInfo = @{XYStoreNotificationProducts: products, XYStoreNotificationInvalidProductIdentifiers: invalidIdentifiers};
-         [[NSNotificationCenter defaultCenter] postNotificationName:XYSKProductsRequestFinished object:nil userInfo:userInfo];
+         [[NSNotificationCenter defaultCenter] postNotificationName:XYSKProductsRequestFinished object:self userInfo:userInfo];
          
      } failure:^(NSError *error) {
          
@@ -218,7 +218,7 @@ typedef void (^XYStoreSuccessBlock)(void);
              // error might be nil (e.g., on airplane mode)
              userInfo = @{XYStoreNotificationStoreError: error};
          }
-         [[NSNotificationCenter defaultCenter] postNotificationName:XYSKProductsRequestFailed object:nil userInfo:userInfo];
+         [[NSNotificationCenter defaultCenter] postNotificationName:XYSKProductsRequestFailed object:self userInfo:userInfo];
      }];
 }
 

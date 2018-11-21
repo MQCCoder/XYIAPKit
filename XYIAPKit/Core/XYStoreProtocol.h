@@ -65,7 +65,7 @@
 - (void)storeDownloadPaused:(NSNotification*)notification;
 
 /**
- Tells the observer that a download has been updated. Use @c downloadProgress to get the progress.
+ Tells the observer that a download has been updated. Use downloadProgress to get the progress.
  */
 - (void)storeDownloadUpdated:(NSNotification*)notification;
 
@@ -75,14 +75,24 @@
 
 - (void)storePaymentTransactionFinished:(NSNotification*)notification;
 
+
+/**
+ Tells the observer that request has changed
+ */
 - (void)storeProductsRequestFailed:(NSNotification*)notification;
 
 - (void)storeProductsRequestFinished:(NSNotification*)notification;
 
+/**
+ Tells the observer that receipt has changed
+ */
 - (void)storeRefreshReceiptFailed:(NSNotification*)notification;
 
 - (void)storeRefreshReceiptFinished:(NSNotification*)notification;
 
+/**
+ Tells the observer that transactions has changed
+ */
 - (void)storeRestoreTransactionsFailed:(NSNotification*)notification;
 
 - (void)storeRestoreTransactionsFinished:(NSNotification*)notification;
