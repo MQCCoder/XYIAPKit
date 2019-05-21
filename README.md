@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/cocoapods/l/XYIAPKit.svg?style=flat)](http://cocoapods.org/pods/XYIAPKit)
 [![Platform](https://img.shields.io/cocoapods/p/XYIAPKit.svg?style=flat)](http://cocoapods.org/pods/XYIAPKit)
 
+[iOS内购编程指南](https://www.jianshu.com/p/17e0d11149f3)
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
