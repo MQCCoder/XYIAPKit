@@ -180,3 +180,9 @@ pod 'XYIAPKit'
 ## License
 
 XYIAPKit is available under the MIT license. See the LICENSE file for more info.
+
+With reference to RMStore
+
+Copyright issues, notice as soon as possible
+
+
