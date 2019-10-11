@@ -175,7 +175,7 @@ pod 'XYIAPKit'
 
 ## Author
 
-1073605877, qichao.ma@quvideo.com
+1073605877
 
 ## License
 
