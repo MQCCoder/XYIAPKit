@@ -490,6 +490,10 @@ typedef void (^XYStoreSuccessBlock)(void);
     }
 }
 
+- (BOOL)paymentQueue:(SKPaymentQueue *)queue shouldAddStorePayment:(SKPayment *)payment forProduct:(SKProduct *)product {
+    return YES;
+}
+
 #pragma mark Download State
 
 - (void)didCancelDownload:(SKDownload*)download queue:(SKPaymentQueue*)queue
@@ -688,10 +692,11 @@ typedef void (^XYStoreSuccessBlock)(void);
         wrapper.successBlock(transaction);
     }
     
-    [self postNotificationWithName:XYSKPaymentTransactionFinished transaction:transaction userInfoExtras:nil];
+    if (transaction.transactionState == SKPaymentTransactionStatePurchased) {
+        [self postNotificationWithName:XYSKPaymentTransactionFinished transaction:transaction userInfoExtras:nil];
+    }
     
-    if (transaction.transactionState == SKPaymentTransactionStateRestored)
-    {
+    if (transaction.transactionState == SKPaymentTransactionStateRestored) {
         [self notifyRestoreTransactionFinishedIfApplicableAfterTransaction:transaction];
     }
 }
@@ -767,7 +772,7 @@ typedef void (^XYStoreSuccessBlock)(void);
 
 - (XYReceiptRefreshService *)receiptService
 {
-    if (_receiptService) {
+    if (!_receiptService) {
         _receiptService = [[XYReceiptRefreshService alloc] init];
     }
     

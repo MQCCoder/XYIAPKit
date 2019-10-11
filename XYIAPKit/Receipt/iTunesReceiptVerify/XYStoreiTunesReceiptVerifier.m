@@ -76,7 +76,14 @@ NSString *const XYCachePreferenceKeyPrefix = @"xy_cache_pre_key_prefix";
         return NO;
     }
     
-    if (([expires_date timeIntervalSinceDate:iTunesResponse.receipt.request_date] > 0) && ([expires_date timeIntervalSinceDate:[NSDate date]] > 0)) {
+    // 将当前时间统一为utc时间进行对比
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss Z";
+    NSString *currentDateString = [dateFormatter stringFromDate:[NSDate date]];
+    NSDate *currentDate = [dateFormatter dateFromString:currentDateString];
+    
+    if (([expires_date timeIntervalSinceDate:iTunesResponse.receipt.request_date] > 0) && ([expires_date timeIntervalSinceDate:currentDate] > 0)) {
         // 1、对比请求时间
         // 针对SKPaymentTransactionObserver的监听，当交易信息发生更新时，苹果会自动推送当前的交易状态，
         // 缓存票据更新时的请求时间，通过与过期时间对比来确定用户的订阅是否过期
@@ -258,7 +265,8 @@ NSString *const XYCachePreferenceKeyPrefix = @"xy_cache_pre_key_prefix";
     NSString *key = [self verifiedReceiptPrefrenceKey:transaction.payment.productIdentifier
                                   applicationUsername:transaction.payment.applicationUsername];
     [self.verifiedReceipts setValue:response forKey:key];
-    [[NSUserDefaults standardUserDefaults] setValue:response forKey:key];
+    NSString *responseJSON = [response yy_modelToJSONString];
+    [[NSUserDefaults standardUserDefaults] setValue:responseJSON forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -277,7 +285,11 @@ NSString *const XYCachePreferenceKeyPrefix = @"xy_cache_pre_key_prefix";
     NSString *key = [self verifiedReceiptPrefrenceKey:productId applicationUsername:applicationUsername];
     NSDictionary *response = [self.verifiedReceipts valueForKey:key];
     if (!response) {
-        response = [[NSUserDefaults standardUserDefaults] valueForKey:key];
+        id value = [[NSUserDefaults standardUserDefaults] valueForKey:key];
+        if (value) {
+            value = [self.class dictionaryWithJSON:value];
+        }
+        response = value;
     }
     
     if (response) {
@@ -294,6 +306,24 @@ NSString *const XYCachePreferenceKeyPrefix = @"xy_cache_pre_key_prefix";
     }
     
     return _verifiedReceipts;
+}
+
++ (NSDictionary *)dictionaryWithJSON:(id)json {
+    if (!json || json == (id)kCFNull) return nil;
+    NSDictionary *dic = nil;
+    NSData *jsonData = nil;
+    if ([json isKindOfClass:[NSDictionary class]]) {
+        dic = json;
+    } else if ([json isKindOfClass:[NSString class]]) {
+        jsonData = [(NSString *)json dataUsingEncoding : NSUTF8StringEncoding];
+    } else if ([json isKindOfClass:[NSData class]]) {
+        jsonData = json;
+    }
+    if (jsonData) {
+        dic = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:NULL];
+        if (![dic isKindOfClass:[NSDictionary class]]) dic = nil;
+    }
+    return dic;
 }
 
 
